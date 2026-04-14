@@ -1,1 +1,1 @@
-export { add } from './utils.js';
+export {default as Maps} from './components/Maps';

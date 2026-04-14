@@ -1,6 +1,6 @@
 {
   "name": "lf-package-map",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A reusable React Leaflet component for visualizing GeoJSON data with integrated statistics, legends, and fullscreen capabilities.",
   "keywords": [
     "react",
@@ -17,7 +17,7 @@
     "url": "git+https://github.com/OomsEwoud/lf-package-map.git"
   },
   "files": [
-    "dist"
+    "src"
   ],
   "type": "module",
   "main": "dist/index.js",
@@ -26,6 +26,12 @@
     "prettier": "^3.8.2",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-leaflet": "^4.0.0",
+    "leaflet": "^1.9.0"
   },
   "scripts": {
     "build": "tsc",
