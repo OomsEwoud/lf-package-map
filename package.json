@@ -1,51 +1,49 @@
 {
   "name": "lf-package-map",
-  "version": "0.0.2",
-  "description": "A reusable React Leaflet component for visualizing GeoJSON data with integrated statistics, legends, and fullscreen capabilities.",
-  "keywords": [
-    "react",
-    "leaflet",
-    "geojson"
-  ],
-  "homepage": "https://github.com/OomsEwoud/lf-package-map",
-  "bugs": {
-    "url": "https://github.com/OomsEwoud/lf-package-map/issues"
-  },
-  "author": "Ewoud Ooms",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/OomsEwoud/lf-package-map.git"
+  "version": "0.0.3",
+  "description": "A reusable React Leaflet component for visualizing GeoJSON data.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "files": [
-    "src"
+    "dist"
   ],
-  "type": "module",
-  "main": "dist/index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/geojson": "^7946.0.16",
-    "@types/leaflet": "^1.9.21",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "prettier": "^3.8.2",
-    "typescript": "^6.0.2",
-    "vitest": "^4.1.4"
-  },
-  "peerDependencies": {
-    "leaflet": "^1.9.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-leaflet": "^4.0.0"
-  },
   "scripts": {
     "build": "tsc",
     "ci": "npm run build && npm run check-format && npm run test",
     "check-format": "prettier --check .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "dev": "vitest"
+    "dev": "vitest",
+    "prepare": "npm run build"
+  },
+  "peerDependencies": {
+    "leaflet": "^1.9.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "react-leaflet": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.16",
+    "@types/leaflet": "^1.9.12",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "leaflet": "^1.9.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-leaflet": "^4.0.0"
   },
   "dependencies": {
-    "lucide-react": "^1.8.0"
+    "lucide-react": "^0.400.0"
   }
 }
