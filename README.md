@@ -11,6 +11,7 @@ npm install lf-package-map leaflet react-leaflet geojson lucide-react
 ```
 
 ### Belangrijk: Leaflet CSS
+
 Vergeet niet de Leaflet CSS-bestanden te importeren in de root van je project (bijv. in `main.tsx` of `App.tsx`), anders zal de kaart niet correct worden weergegeven:
 
 ```typescript
@@ -21,7 +22,11 @@ import 'leaflet/dist/leaflet.css';
 
 ## Gebruik
 
-Hier is een basisvoorbeeld van hoe je de component implementeert in een React applicatie:
+### 1. Belangrijk: Hoogte van de container
+
+De kaart vult 100% van de hoogte van zijn ouder-container. Zorg ervoor dat de container waarin de `<Maps />` component staat een expliciete hoogte heeft (bijv. `h-screen` of `h-[600px]`), anders zal de kaart niet zichtbaar zijn.
+
+### 2. Implementatie voorbeeld
 
 ```tsx
 import { Maps } from 'lf-package-map';
@@ -49,7 +54,7 @@ const myColors = [
 
 export default function App() {
   return (
-    <div style={{ height: '600px', width: '100%' }}>
+    <div style={{ height: '100vh', width: '100vw' }}>
       <Maps 
         mapData={mockBoundaries}
         stats={mockStats}
@@ -58,8 +63,9 @@ export default function App() {
         activeMonth="Maart"
         colorThresholds={myColors}
         legendTitle="Werkloosheidsgraad"
+        legendStages={["Laag", "Gemiddeld", "Hoog"]}
         valueSuffix="%"
-        renderModalContent={(selected) => (
+        renderModalContent={(selected: any) => (
           <div className="p-4">
             <h3 className="text-xl font-bold">Details voor {selected?.name}</h3>
             <p>Huidige score: {selected?.rate}%</p>
@@ -68,6 +74,27 @@ export default function App() {
       />
     </div>
   );
+}
+```
+
+---
+
+## Styling (Tailwind CSS)
+
+Deze component gebruikt Tailwind CSS voor de styling van de UI-elementen. Om de stijlen correct te laden, moet je jouw `tailwind.config.js` aanpassen zodat deze ook de bestanden in de `node_modules` scant:
+
+```javascript
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/lf-package-map/**/*.{js,ts,jsx,tsx}"
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
 }
 ```
 
@@ -86,22 +113,22 @@ De `Maps` component accepteert de volgende props:
 | `activeYear` | `string` | Het jaar dat wordt weergegeven in de UI. |
 | `activeMonth` | `string` | De maand die wordt weergegeven in de UI. |
 | `legendTitle` | `string` | De titel die boven de legenda verschijnt. |
+| `legendStages` | `string[]` | De labels voor de verschillende stappen in de legenda. |
 | `valueSuffix` | `string` | Suffix achter de waardes (bijv. '%' of ' p.p.'). |
-| `renderModalContent` | `(selected: any) => ReactNode` | Functie die bepaalt wat er in de modal getoond wordt bij een klik. |
+| `renderModalContent` | `(selected: any) => ReactNode` | Functie die de inhoud van de modal bepaalt. |
 
 ---
 
-## Vereisten
+## Vereisten (Peer Dependencies)
 
-Deze package maakt gebruik van de volgende **peer-dependencies**. Zorg dat deze in je project aanwezig zijn:
+Zorg dat deze dependencies aanwezig zijn in je project:
 
-* `react` (>= 18.0.0)
-* `react-dom` (>= 18.0.0)
+* `react` (>= 18.0.0 || ^19.0.0)
+* `react-dom` (>= 18.0.0 || ^19.0.0)
 * `leaflet` (^1.9.0)
 * `react-leaflet` (^4.0.0)
 * `lucide-react` (voor de iconen)
 
 ## Licentie
 
-MIT
-```
+MIT Licentie
