@@ -1,1 +1,1 @@
-export {default as Maps} from './components/Maps';
+export {default as Maps} from './components/Maps.js';

@@ -1,89 +1,50 @@
 # LF Package Map 🌍
 
-Een herbruikbare React Leaflet component voor het visualiseren van geografische data (GeoJSON) met geïntegreerde statistieken, legenda's en fullscreen functionaliteit.
+A reusable React Leaflet component designed for visualizing geographic data (GeoJSON) with integrated statistics, dynamic legends, and fullscreen functionality.
 
-## Installatie
+---
 
-Installeer de package en zijn peer-dependencies via npm:
+## Installation
+
+Install the package along with its required peer dependencies via npm:
 
 ```bash
 npm install lf-package-map leaflet react-leaflet geojson lucide-react
 ```
 
-### Belangrijk: Leaflet CSS
+---
 
-Vergeet niet de Leaflet CSS-bestanden te importeren in de root van je project (bijv. in `main.tsx` of `App.tsx`), anders zal de kaart niet correct worden weergegeven:
+## Critical: Leaflet CSS
 
-```typescript
+To ensure the map renders correctly, you must import the Leaflet CSS files in your project's entry point (e.g., `main.tsx` or `App.tsx` or `App.css`):
+
+```ts
 import 'leaflet/dist/leaflet.css';
 ```
 
 ---
 
-## Gebruik
+## Styling Configuration
 
-### 1. Belangrijk: Hoogte van de container
+### Using with Laravel & Tailwind CSS v4
 
-De kaart vult 100% van de hoogte van zijn ouder-container. Zorg ervoor dat de container waarin de `<Maps />` component staat een expliciete hoogte heeft (bijv. `h-screen` of `h-[600px]`), anders zal de kaart niet zichtbaar zijn.
+If you are using modern Laravel with Tailwind v4, update your `resources/css/app.css`:
 
-### 2. Implementatie voorbeeld
+```css
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
 
-```tsx
-import { Maps } from 'lf-package-map';
-import 'leaflet/dist/leaflet.css';
-
-const mockBoundaries = [
-  { 
-    id: 1, 
-    name: "Antwerpen", 
-    boundary: { 
-      type: "Polygon", 
-      coordinates: [[[4.4, 51.2], [4.5, 51.2], [4.5, 51.3], [4.4, 51.2]]] 
-    } as any 
-  },
-];
-
-const mockStats = [
-  { id: 1, name: "Antwerpen", rate: 5.2 },
-];
-
-const myColors = [
-  { min: 5, color: '#ef4444' }, 
-  { min: 0, color: '#3b82f6' }, 
-];
-
-export default function App() {
-  return (
-    <div style={{ height: '100vh', width: '100vw' }}>
-      <Maps 
-        mapData={mockBoundaries}
-        stats={mockStats}
-        areaType="gemeente"
-        activeYear="2024"
-        activeMonth="Maart"
-        colorThresholds={myColors}
-        legendTitle="Werkloosheidsgraad"
-        legendStages={["Laag", "Gemiddeld", "Hoog"]}
-        valueSuffix="%"
-        renderModalContent={(selected: any) => (
-          <div className="p-4">
-            <h3 className="text-xl font-bold">Details voor {selected?.name}</h3>
-            <p>Huidige score: {selected?.rate}%</p>
-          </div>
-        )}
-      />
-    </div>
-  );
-}
+/* Scan the package for Tailwind utility classes */
+@source '../../node_modules/lf-package-map/**/*.js';
 ```
 
 ---
 
-## Styling (Tailwind CSS)
+### Using with Tailwind CSS v3
 
-Deze component gebruikt Tailwind CSS voor de styling van de UI-elementen. Om de stijlen correct te laden, moet je jouw `tailwind.config.js` aanpassen zodat deze ook de bestanden in de `node_modules` scant:
+Add the package path to your `content` array in `tailwind.config.js`:
 
-```javascript
+```js
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -100,35 +61,105 @@ export default {
 
 ---
 
-## Props
+## Usage
 
-De `Maps` component accepteert de volgende props:
+### 1. Container Height
 
-| Prop | Type | Beschrijving |
-| :--- | :--- | :--- |
-| `mapData` | `Boundary[]` | Array met GeoJSON boundaries en metadata. |
-| `stats` | `RateData[]` | De statistische data die gekoppeld wordt aan de kaartvlakken. |
-| `colorThresholds` | `ColorThreshold[]` | Bepaalt welke kleuren worden getoond bij welke waardes. |
-| `areaType` | `string` | Label voor de regio (bijv. 'gemeente' of 'provincie'). |
-| `activeYear` | `string` | Het jaar dat wordt weergegeven in de UI. |
-| `activeMonth` | `string` | De maand die wordt weergegeven in de UI. |
-| `legendTitle` | `string` | De titel die boven de legenda verschijnt. |
-| `legendStages` | `string[]` | De labels voor de verschillende stappen in de legenda. |
-| `valueSuffix` | `string` | Suffix achter de waardes (bijv. '%' of ' p.p.'). |
-| `renderModalContent` | `(selected: any) => ReactNode` | Functie die de inhoud van de modal bepaalt. |
+The map component fills 100% of the height of its parent container.
+
+Ensure the parent element has an explicit height (e.g., `h-screen` or `h-[600px]`), otherwise the map will not be visible.
 
 ---
 
-## Vereisten (Peer Dependencies)
+### 2. Implementation Example
 
-Zorg dat deze dependencies aanwezig zijn in je project:
+```ts
+import { Maps } from 'lf-package-map';
+import 'leaflet/dist/leaflet.css';
 
-* `react` (>= 18.0.0 || ^19.0.0)
-* `react-dom` (>= 18.0.0 || ^19.0.0)
-* `leaflet` (^1.9.0)
-* `react-leaflet` (^4.0.0)
-* `lucide-react` (voor de iconen)
+const boundaries = [
+  { 
+    id: 1, 
+    name: "Antwerp", 
+    boundary: { 
+      type: "Polygon", 
+      coordinates: [[[4.4, 51.2], [4.5, 51.2], [4.5, 51.3], [4.4, 51.2]]] 
+    } 
+  },
+];
 
-## Licentie
+const stats = [{ id: 1, name: "Antwerp", rate: 5.2 }];
 
-MIT Licentie
+const colors = [
+  { min: 5, color: '#ef4444' }, 
+  { min: 0, color: '#3b82f6' }, 
+];
+
+const legend = [
+  { label: "High", color: "#ef4444", text: "> 5%" },
+  { label: "Low", color: "#3b82f6", text: "< 5%" }
+];
+
+export default function App() {
+  return (
+    <div style={{ height: '100vh', width: '100vw' }}>
+      <Maps 
+        mapData={boundaries}
+        stats={stats}
+        areaType="municipality"
+        activeYear="2024"
+        activeMonth="March"
+        colorThresholds={colors}
+        legendTitle="Unemployment Rate"
+        legendStages={legend}
+        valueSuffix="%"
+        renderModalContent={(selected) => (
+          <div className="p-4">
+            <h3 className="text-xl font-bold">
+              Details for {selected?.name}
+            </h3>
+            <p>Current score: {selected?.rate}%</p>
+          </div>
+        )}
+      />
+    </div>
+  );
+}
+```
+
+---
+
+## Props
+
+The `Maps` component accepts the following props:
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `mapData` | `Boundary[]` | Array containing GeoJSON boundaries and metadata |
+| `stats` | `RateData[]` | Statistical data linked to map features by name |
+| `colorThresholds` | `ColorThreshold[]` | Logic for thematic coloring based on numerical values |
+| `areaType` | `string` | Label for the region type (e.g., `'municipality'`) |
+| `activeYear` | `string` | The year displayed in the UI components |
+| `activeMonth` | `string` | The month displayed in the UI components |
+| `legendTitle` | `string` | Title shown at the top of the expandable legend |
+| `legendStages` | `LegendStage[]` | Array of `{ label, color, text }` for legend items |
+| `valueSuffix` | `string` | Suffix for values (e.g., `'%'`, `' p.p.'`) |
+| `renderModalContent` | `(selected) => ReactNode` | Custom renderer function for the details modal |
+
+---
+
+## Peer Dependencies
+
+Ensure these dependencies are installed in your project:
+
+- `react (>= 18.0.0 || ^19.0.0)`
+- `react-dom (>= 18.0.0 || ^19.0.0)`
+- `leaflet (^1.9.0)`
+- `react-leaflet (^4.0.0)`
+- `lucide-react` (for UI icons)
+
+---
+
+## License
+
+MIT License

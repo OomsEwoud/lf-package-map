@@ -26,8 +26,8 @@ export default function Legend({ title, stages }: MapLegendProps) {
                 </h3>
                 
                 <div className="space-y-2">
-                    {stages.map((stage) => (
-                        <div key={stage.label} className="flex items-center gap-3">
+                    {stages.map((stage, index) => (
+                        <div key={`${stage.label}-${index}`} className="flex items-center gap-3">
                             <div 
                                 className="h-3 w-3 shrink-0 rounded-full shadow-sm" 
                                 style={{ backgroundColor: stage.color }} 

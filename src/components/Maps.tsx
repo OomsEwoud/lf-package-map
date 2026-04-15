@@ -2,7 +2,6 @@ import type { Feature, Geometry } from 'geojson';
 import { useState, useMemo } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 
-// Relatieve imports
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import type { Selected, RateData, Boundary } from '../types/map';
 import { transformToGeoJSON, handleMapInteractions, getRateColor, type ColorThreshold } from '../utils/mapUtils';
@@ -105,14 +104,12 @@ export default function Maps({
                 
                 {isFullscreen && (
                     <div className="sm:hidden">
-                        {/* MapLegend gebruikt nu title en stages */}
                         <MapLegend title={legendTitle} stages={legendStages} />
                         <Period period={period} />
                     </div>
                 )}
                 
                 <div className="hidden sm:block">
-                    {/* MapLegend gebruikt nu title en stages */}
                     <MapLegend title={legendTitle} stages={legendStages} />
                     <Period period={period} />
                 </div>
@@ -124,7 +121,6 @@ export default function Maps({
                             key={mapKey} 
                             data={geoData} 
                             style={mapStyle} 
-                            // We geven valueSuffix mee voor de tooltip
                             onEachFeature={(f, l) => handleMapInteractions(f, l, setSelected, valueSuffix)} 
                         />
                     )}
